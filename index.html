@@ -99,9 +99,104 @@
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+    errorBtns.forEach(btn => {
+      btn.addEventListener('click', e => {
+        let btnText = e.target.textContent;
+        switch (btnText) {
+          case 'Console Log':
+            console.log('This is a log');
+            break;
+          case 'Console Error':
+            console.error('This is an error');
+            break;
+          case 'Console Count':
+            console.count('This is a count');
+            break;
+          case 'Console Warn':
+            console.warn('This is a warning');
+            break;
+          case 'Console Assert':
+            let x = 0;
+            let y = 1;
+            console.assert(x==y, x, y, 'This is an assertion, x!=y');
+            break;
+          case 'Console Clear':
+            console.clear();
+            break;
+          case 'Console Dir':
+            console.dir(document.getElementById('error-btns'));
+            break;
+          case 'Console dirxml':
+            console.dirxml(document.getElementById('error-btns'));
+            break;
+          case 'Console Group Start':
+            console.group('Group Start');
+            break;
+          case 'Console Group End':
+            console.groupEnd("Group End");
+            break;
+          case 'Console Table':
+            console.table([{
+              name: 'John',
+              age: 20
+            }, {
+              name: 'Jane',
+              age: 21
+            }]);
+            break;
+          case 'Start Timer':
+            console.time('Timer');
+            break;
+          case 'End Timer':
+            console.timeEnd('Timer');
+            break;
+          case 'Console Trace':
+            (function a() {
+              (function b() {
+                (function c() {
+                  console.trace();
+                })();
+              })();
+            })();
+            break;
+          case 'Trigger a Global Error':
+            xxx.a = 0;
+            break;
+        }
+      });
+    });
 
-    // Start your code here
-    // You may move this JS to another file if you wish
+    function writeFile() {
+        try {
+            const fs = require('fs');
+            fs.writeFileSync('test.txt', 'Hello World!');
+            console.log('File written successfully');
+        } catch (err) {
+            console.error("catch an error", err);
+        } finally {
+            console.log('This will always execute');
+        }
+    }
+    writeFile();
+
+    window.onerror = function (message, url, line, column, error) {
+        console.log(message, url, line, column, error);
+    };
+
+    class MyError extends Error {
+        constructor(message) {
+            super(message);
+            this.name = 'MyError';
+        }
+        printErrorType() {
+            console.log(this.name);
+        }
+    }
+
+    function throwError() {
+        throw new MyError('This is a custom error');
+    }
+    throwError();
   </script>
 </body>
 
